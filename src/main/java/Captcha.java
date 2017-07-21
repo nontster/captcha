@@ -1,40 +1,44 @@
-
 public class Captcha {
-    private int left;
-    private int right;
-    private int operator;
-    private int pattern;
-    static final int STRING_FIRST_PATTERN=1;
-    static final int INT_FIRST_PATTERN =2;
-    private final String[] numberString = new String[]{"One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine"};
+    static final int STRING_FIRST_PATTERN = 1;
+    static final int INT_FIRST_PATTERN = 2;
+    private Operand left;
+    private Operand right;
+    private Operator operator;
 
     public Captcha(int pattern, int left, int operator, int right) {
-        this.left = left;
-        this.right = right;
-        this.operator = operator;
-        this.pattern = pattern;
+        this.left = OperandFactory.createLeft(pattern, left);
+        this.right = OperandFactory.createRight(pattern, right);
+        this.operator = new Operator(operator);
     }
 
-    public String getLeft() {
+    public Operand createLeft(int pattern, int value) {
 
-        if(this.pattern == INT_FIRST_PATTERN)
-            return String.valueOf(this.left);
-
-        return numberString[this.left - 1];
+        if (pattern == STRING_FIRST_PATTERN)
+            return new StringOperand(value);
+        return new NumberOperand(value);
     }
 
-    public String getRight() {
-
-        if(this.pattern == INT_FIRST_PATTERN)
-            return numberString[this.right-1];
-
-        return String.valueOf(right);
+    public Operand getLeft() {
+        return this.left;
     }
 
-    public String getOperator() {
-        String[] operatorString = {"+", "*", "-"};
+    public Operand createRight(int pattern, int value) {
 
-        return operatorString[this.operator - 1];
+        if (pattern == STRING_FIRST_PATTERN)
+            return new NumberOperand(value);
+        return new StringOperand(value);
+    }
 
+    public Operand getRight() {
+        return this.right;
+    }
+
+    public Operator getOperator() {
+        return this.operator;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%s %s %s", this.getLeft(), this.operator, this.getRight());
     }
 }

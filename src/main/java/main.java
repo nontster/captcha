@@ -3,7 +3,10 @@
  */
 public class main {
     public static void main(String[] args) {
-        System.out.println("aaa");
+
+        //Cho cho = new Cho();
+        //Captcha captcha = new Captcha(cho.getPattern(), cho.getOperand(), cho.getOperand(), cho.getOperation());
+
     }
 
 }
